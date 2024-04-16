@@ -1,8 +1,12 @@
 int utsignalkort = 2;
 int analogPin = A1;
 long p2;
+long p3;
+int signTab2[] = {1,1,-1,-1};
+int signTab3[] = {1,-1,-1,1};
+
 void setup() {
-  // put your setup code here, to run once.:
+  // put your setup code here, to run once:
   Serial.begin(9600);
   pinMode(utsignalkort, OUTPUT);
 }
@@ -10,22 +14,28 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
   p2=0;
-  for (int i = 0; i < 5000; i++) { // Loop 10 times
-    digitalWrite(utsignalkort, HIGH); // Set digital pin HIGH
-    //delay(1); // Wait for stabilization
-    int sensorValue = analogRead(analogPin); // Read analog pin
-    p2=p2+sensorValue;
-    //Serial.print("Sensor value when HIGH: ");
-    //Serial.println(sensorValue);
-  
-    digitalWrite(utsignalkort, LOW); // Set digital pin LOW
-    //delay(1); // Wait for stabilization
-    int sensorValue2 = analogRead(analogPin); // Read analog pin
-    p2=p2-sensorValue2;
-    //Serial.print("Sensor value when LOW: ");
-    //Serial.println(sensorValue2);
+  p3=0;
+  for (int i = 0; i < 1000; i++) { // Loop 10 times
+    for (int j = 0; j < 4; j++) {
+      if (signTab2[j] == 1) {
+        digitalWrite(utsignalkort, HIGH); 
+      } else {
+        digitalWrite(utsignalkort, LOW); 
+      }
+
+      int sensorValue = analogRead(analogPin); // Read analog pin
+      p2 = signTab2[j] * sensorValue + p2;
+
+      //int sensorValue2 = analogRead(analogPin); // Read analog pin
+      p3 = signTab3[j] * sensorValue + p3;
+    }
   }
-Serial.println(p2);
-delay(1);
+
+  long produkt = p2 * p2 + p3 * p3;
+
+  Serial.print(p2);
+  Serial.print(", ");
+  Serial.println(p3);
+  // Serial.println(produkt);
 }
 
