@@ -3,7 +3,7 @@ close all
 
 % Definere frekvenser
 f1=1
-f2=1
+f2=1-0.1
 
 % Samplingsperioden
 t=0:0.001:50;
