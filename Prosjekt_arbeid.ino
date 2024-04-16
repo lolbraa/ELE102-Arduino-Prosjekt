@@ -2,7 +2,7 @@ int utsignalkort = 2;
 int analogPin = A1;
 long p2;
 void setup() {
-  // put your setup code here, to run once:
+  // put your setup code here, to run once.:
   Serial.begin(9600);
   pinMode(utsignalkort, OUTPUT);
 }
