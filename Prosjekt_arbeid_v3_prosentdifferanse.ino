@@ -5,14 +5,11 @@ uint8_t knapp = 8;
 long p2;
 long p3;
 long produkt;
+long produktSiste;
+float prosentdifferanse;
+unsigned char resultat;
 int signTab2[] = {1,1,-1,-1};
 int signTab3[] = {1,-1,-1,1};
-
-#define MAX_SIZE 3 // Define the maximum size of your data array
-long produktArray[MAX_SIZE]; // Array to store produkt values
-int index = 0; // Index to keep track of where to store the next value
-float resultat = 0;
-float y[MAX_SIZE]; // Output array
 
 void setup() {
   // put your setup code here, to run once:
@@ -42,18 +39,18 @@ void loop() {
     }
   }
 
+  produktSiste = produkt;
   produkt = p2 * p2 + p3 * p3;
 
-  produktArray[index] = produkt; // Store produkt in the array
-  
-  lavpassfilter(produktArray, MAX_SIZE, 0.1, 10);
+  //float prosentdifferanse = ((10-2)/10)*100;
+  prosentdifferanse = ((float)produktSiste - (float)produkt) * 100 / (float)produktSiste;
 
-  if (index >= MAX_SIZE) {
-    resultat = y[MAX_SIZE-1];
-    index = 0;
+  if (abs(prosentdifferanse) > 25) {
+    resultat = 100;
   } else {
-    index++;
+    resultat = 0;
   }
+  
 
   Serial.print(p2);
   Serial.print(", ");
@@ -61,25 +58,11 @@ void loop() {
   Serial.print(", ");
   Serial.print(produkt);
   Serial.print(", ");
-  Serial.print(resultat);
+  Serial.print(prosentdifferanse);
   Serial.print(", ");
-  Serial.print(index);
+  Serial.print(resultat);
   Serial.println("");
 }
 
 
 
-void lavpassfilter(long* x, int n, float dt, float RC) {
-  // Digital RC low pass filter
-  // Variables:
-  // input data - x
-  // time interval - dt
-  // time constant RC
-
-  float alfa = dt / (RC + dt);
-  y[0] = x[0];
-
-  for (int i = 1; i < n; i++) {
-    y[i] = alfa * x[i] + (1 - alfa) * y[i - 1];
-  }
-}

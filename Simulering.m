@@ -10,7 +10,7 @@ t=0:0.001:50;
 
 % Simulerte kurver for sending (y1), mottaker (y2) og mottaker 90grader
 % forskøvet (y2_b)
-y1=sin(6.28.*f1.*t);
+y1=20*sin(6.28.*f1.*t);
 y2=sin(6.28.*f2.*t);
 y2_b=sin(6.28.*f2.*t+pi/2);
 

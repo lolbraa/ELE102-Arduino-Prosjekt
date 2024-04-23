@@ -5,13 +5,15 @@ uint8_t knapp = 8;
 long p2;
 long p3;
 long produkt;
+long produktSiste;
+float prosentdifferanse;
+unsigned char resultat;
 int signTab2[] = {1,1,-1,-1};
 int signTab3[] = {1,-1,-1,1};
 
-#define MAX_SIZE 3 // Define the maximum size of your data array
+#define MAX_SIZE 100 // Define the maximum size of your data array
 long produktArray[MAX_SIZE]; // Array to store produkt values
 int index = 0; // Index to keep track of where to store the next value
-float resultat = 0;
 float y[MAX_SIZE]; // Output array
 
 void setup() {
@@ -42,28 +44,24 @@ void loop() {
     }
   }
 
+  produktSiste = produkt;
   produkt = p2 * p2 + p3 * p3;
 
   produktArray[index] = produkt; // Store produkt in the array
-  
+  index = (index + 1) % MAX_SIZE; // Increment the index for the next round, wrap around if necessary
+
   lavpassfilter(produktArray, MAX_SIZE, 0.1, 10);
 
-  if (index >= MAX_SIZE) {
-    resultat = y[MAX_SIZE-1];
-    index = 0;
-  } else {
-    index++;
-  }
-
+/*   for (int i = 0; i < MAX_SIZE; i++) {
+    Serial.println(y[i]);
+  } */
   Serial.print(p2);
   Serial.print(", ");
   Serial.print(p3);
   Serial.print(", ");
   Serial.print(produkt);
   Serial.print(", ");
-  Serial.print(resultat);
-  Serial.print(", ");
-  Serial.print(index);
+  Serial.print(y[MAX_SIZE-1]);
   Serial.println("");
 }
 
