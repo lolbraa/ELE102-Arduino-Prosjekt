@@ -8,7 +8,7 @@ long produkt;
 int signTab2[] = {1,1,-1,-1};
 int signTab3[] = {1,-1,-1,1};
 
-#define MAX_SIZE 4 // Define the maximum size of your data array
+#define MAX_SIZE 3 // Define the maximum size of your data array
 long produktArray[MAX_SIZE]; // Array to store produkt values
 int index = 0; // Index to keep track of where to store the next value
 float resultat = 0;
